@@ -28,7 +28,7 @@ const findUserById = async (req, res, next) => {
 };
 
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const id = req.params.id;
 
     if(!mongoose.isValidObjectId(id)){
@@ -42,7 +42,7 @@ const updateUser = async (req, res) => {
     }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     const id = req.params.id
     if(!mongoose.isValidObjectId(id)){
         return next(createError(400, 'Bad request, invalid id!'))

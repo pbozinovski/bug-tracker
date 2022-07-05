@@ -1,6 +1,7 @@
 const express = require('express')
 const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
+const projectRoutes = require('./routes/projectRoutes')
 require('dotenv').config()
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
@@ -20,6 +21,7 @@ app.use(express.json())
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
 
 
 // error handler middleware
