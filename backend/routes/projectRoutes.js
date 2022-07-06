@@ -21,10 +21,10 @@ router.get('/:id', [verifyToken, verifyUser], findProjectById);
 router.post('/', [verifyToken, verifyUser], addProject);
 
 // add Contributors to project  
-router.patch('/contribute/:id', [verifyToken, verifyUser], addContributorsToProject);
+router.patch('/:id/contributors', [verifyToken, verifyUser], addContributorsToProject);
 
 // remove Contributors from project
-router.patch('/decontribute/:id', [verifyToken, verifyUser], removeContributorsFromProject);
+router.delete('/:id/contributors', [verifyToken, verifyUser], removeContributorsFromProject);
 
 // update Project
 router.patch('/:id',[verifyToken, verifyUser], updateProject);

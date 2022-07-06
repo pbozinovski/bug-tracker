@@ -40,7 +40,7 @@ const loginUser = async (req, res, next) => {
         }
 
         const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET)
-        res.cookie("token", token, {maxAge: 900000, httpOnly: true})
+        res.cookie("token", token, {maxAge: 9000000, httpOnly: true})
         res.status(200).json(cleanUser(user));
 
     } catch (error) {
