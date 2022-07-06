@@ -1,4 +1,5 @@
 const Project = require('../models/Project')
+const Ticket = require("../models/Ticket")
 const mongoose = require('mongoose');
 const { createError } = require('../utils/error');
 
@@ -93,12 +94,51 @@ const removeContributorsFromProject = async (req, res, next) => {
     }
 }
 
+// const addTicketsToProject = async (req, res, next) => {
+//     const id = req.params.id;
+
+//     if(!mongoose.isValidObjectId(id)){
+//         return next(createError(400, 'Bad request, invalid id!'))
+//     }
+//     try {
+//         const {tickets} = req.body;
+//         const project = await Project.findById(id)
+//         tickets.forEach(c => {
+//             if(!project.tickets.includes(c))
+//                 project.tickets.push(c)
+//         })
+//         await project.save()
+//         res.status(201).json(project);
+//     } catch (error) {
+//         return next(createError(400, error.message));
+//     }
+// }
+
+const removeTicketFromProject = async (req, res, next) => {
+    const id = req.params.id;
+
+    if(!mongoose.isValidObjectId(id)){
+        return next(createError(400, 'Bad request, invalid id!'))
+    }
+    try {
+        const {ticket} = req.body;
+        const project = await Project.findById(id)
+        project.tickets = project.tickets.filter(pt => pt.valueOf()!==ticket)
+        await Ticket.findOneAndRemove({_id: ticket})
+        await project.save()
+        res.status(201).json(project);
+    } catch (error) {
+        return next(createError(400, error.message));
+    }
+}
+
 const deleteProject = async (req, res, next) => {
     const id = req.params.id
     if(!mongoose.isValidObjectId(id)){
         return next(createError(400, 'Bad request, invalid id!'))
     }
-    const deletedProject = await Project.findByIdAndDelete(id)
+    const deletedProject = await Project.findOneAndRemove({_id: id})
+
     if(!deletedProject){
         return next(createError(404, "Project not found!"));
     }
@@ -112,6 +152,7 @@ module.exports = {
     addProject,
     addContributorsToProject,
     removeContributorsFromProject,
+    removeTicketFromProject,
     updateProject,
     deleteProject
 }

@@ -5,6 +5,7 @@ const {
     updateProject,
     addContributorsToProject,
     removeContributorsFromProject,
+    removeTicketFromProject,
     deleteProject,
     addProject
 } = require('../service/ProjectService');
@@ -21,10 +22,16 @@ router.get('/:id', [verifyToken, verifyUser], findProjectById);
 router.post('/', [verifyToken, verifyUser], addProject);
 
 // add Contributors to project  
-router.patch('/:id/contributors', [verifyToken, verifyUser], addContributorsToProject);
+router.post('/:id/contributors', [verifyToken, verifyUser], addContributorsToProject);
 
 // remove Contributors from project
 router.delete('/:id/contributors', [verifyToken, verifyUser], removeContributorsFromProject);
+
+// // add Tickets to project  
+// router.post('/:id/tickets', [verifyToken, verifyUser], addTicketsToProject);
+
+// remove Tickets from project
+router.delete('/:id/tickets', [verifyToken, verifyUser], removeTicketFromProject);
 
 // update Project
 router.patch('/:id',[verifyToken, verifyUser], updateProject);
